@@ -1,7 +1,7 @@
 /**
  * Classe Grille
- * Auteur : Personne 1
- * Description : Cette classe représente la grille de Sudoku 9x9.
+ * Auteur : Serigne Abdoul Aziz Ndiaye
+ * Cette classe représente la grille de Sudoku 9x9.
  * Elle contient un tableau 2D qui stocke les valeurs des cases.
  * Les cases vides sont représentées par 0, et les chiffres de 1 à 9 pour les cases remplies.
  * Cette classe fournit des méthodes pour accéder et modifier les valeurs des cases.
