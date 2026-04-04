@@ -2,7 +2,7 @@
 
 import java.io.*;
 import java.util.Scanner;
-
+ 
 public class Grilleloader {
 
     // Charge la grille depuis un fichier texte
