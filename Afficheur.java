@@ -2,7 +2,7 @@
 
 public class Afficheur {
     // Affiche la grille complète avec les bordures
-
+ 
     public void afficherGrille(Grille g) {
         System.out.println("╔═══════╦═══════╦═══════╗");
         for (int i = 0; i < 9; i++) {
