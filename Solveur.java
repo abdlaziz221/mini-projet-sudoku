@@ -9,7 +9,7 @@
         if (caseVide == null) {
             return true;
         }
-
+ 
         int ligne = caseVide[0];
         int col = caseVide[1];
 
