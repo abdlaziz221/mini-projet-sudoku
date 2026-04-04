@@ -5,7 +5,7 @@ public class Solveur {
      
     public boolean defar(Grille grille) {
         // Chercher la prochaine case vide
-        int[] caseVide = trouverTiakh(grille);
+        int[] caseVide = guissTiakh(grille);
 
         // Si pas de case vide, la grille est complète
         if (caseVide == null) {
@@ -17,7 +17,7 @@ public class Solveur {
 
         // Tester les chiffres de 1 à 9
         for (int val = 1; val <= 9; val++) {
-            if (estPlacementBakhna(grille, ligne, col, val)) {
+            if (estPlacementAccepte(grille, ligne, col, val)) {
                 grille.setValeur(ligne, col, val);
 
                 // Appel récursif pour continuer à remplir la grille
@@ -48,7 +48,7 @@ public class Solveur {
 
     // Vérifie si on peut placer val en (ligne, col) sans violer les règles du Sudoku.
      
-    private boolean estPlacementBakhna(Grille grille, int ligne, int col, int val) {
+    private boolean estPlacementAccepte(Grille grille, int ligne, int col, int val) {
         // Vérifier la ligne
         for (int j = 0; j < 9; j++) {
             if (grille.getValeur(ligne, j) == val) {
