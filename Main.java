@@ -1,67 +1,75 @@
+/**
+ * Classe Main
+ * Point d'entrée du programme Sudoku.
+ */
+
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
 
-        
-        // loader : pour charger la grille 
-        // afficheur : pour afficher la grille
-        // solveur : pour résoudre le sudoku
+    /**
+     * Méthode principale
+     * @param args arguments ligne de commande
+     */
+    public static void main(String[] args) {
+        // Titre du programme
+        System.out.println("========================================");
+        System.out.println("      SOLVEUR DE SUDOKU - L3 GLSI");
+        System.out.println("========================================");
+
+        Scanner scanner = new Scanner(System.in);
+        Grille grille = null;
         Grilleloader loader = new Grilleloader();
         Afficheur afficheur = new Afficheur();
-        Solveur solveur = new Solveur();
 
-        // Variable qui va contenir la grille
-        Grille grille = null;
+        // Choix du mode de chargement
+        System.out.println("Choisissez le mode de chargement de la grille :");
+        System.out.println("1. Charger depuis un fichier");
+        System.out.println("2. Saisie manuelle");
+        System.out.print("Votre choix (1 ou 2) : ");
+
+        int choix = scanner.nextInt();
+        scanner.nextLine(); // Consommer la ligne
 
         try {
-            //  Vérifier si un fichier est passé en argument
-            if (args.length > 0) {
-                // Si oui → on charge la grille depuis le fichier
-                System.out.println("Chargement de la grille depuis le fichier...");
-                grille = loader.chargerDepuisFichier(args[0]);
+            if (choix == 1) {
+                System.out.print("Entrez le chemin du fichier : ");
+                String chemin = scanner.nextLine();
+                grille = loader.chargerDepuisFichier(chemin);
+                afficheur.afficherMessage("Grille chargée depuis le fichier");
+            } else if (choix == 2) {
+                grille = loader.saisirManuellement();
+                afficheur.afficherMessage("Grille saisie manuellement");
             } else {
-                // Sinon, saisie manuelle
-                System.out.println("Aucun fichier fourni.");
-                System.out.println("Veuillez entrer la grille manuellement :");
-
-                Scanner scanner = new Scanner(System.in);
-
-                // Tableau temporaire pour stocker les valeurs
-                int[][] tab = new int[9][9];
-
-                // Boucle pour remplir la grille ligne par ligne
-                for (int i = 0; i < 9; i++) {
-                    System.out.println("Ligne " + (i + 1) + " (9 chiffres séparés par espace) :");
-
-                    for (int j = 0; j < 9; j++) {
-                        // Lecture de chaque valeur
-                        tab[i][j] = scanner.nextInt();
-                    }
-                }
-
-                // Création de la grille avec les valeurs saisies
-                grille = new Grille(tab);
+                System.out.println("Choix invalide.");
+                return;
             }
 
-            // Affichage de la grille initiale
-            System.out.println("\nGrille initiale :");
+            // Afficher la grille initiale
+            afficheur.afficherMessage("Grille initiale");
             afficheur.afficherGrille(grille);
 
-            // Résolution du Sudoku
-            boolean res = solveur.resoudre(grille);
+            // Vérifier si la grille initiale est valide
+            if (!grille.estValide()) {
+                afficheur.afficherMessage("Erreur : La grille initiale n'est pas valide !");
+                return;
+            }
 
-            // Affichage du résultat
-            if (res) {
-                System.out.println("\nSolution trouvée :");
-                afficheur.afficherGrille(grille);
+            // Résoudre la grille
+            Solveur solveur = new Solveur();
+            Grille grilleResolue = new Grille(grille); // Copie pour ne pas modifier l'originale
+
+            if (solveur.resoudre(grilleResolue)) {
+                afficheur.afficherMessage("Grille résolue avec succès !");
+                afficheur.afficherGrille(grilleResolue);
             } else {
-                System.out.println("\nAucune solution trouvée.");
+                afficheur.afficherMessage("Impossible de résoudre cette grille");
             }
 
         } catch (Exception e) {
-            // Gestion des erreurs 
-            System.out.println("Erreur : " + e.getMessage());
+            afficheur.afficherMessage("Erreur : " + e.getMessage());
         }
+
+        scanner.close();
     }
 }

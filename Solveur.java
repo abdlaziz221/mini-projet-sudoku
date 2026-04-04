@@ -1,10 +1,19 @@
+/**
+ * Classe Solveur
+ * Auteur : Souleymane Sirima Mbodj
+ * Résout la grille de Sudoku en utilisant l'algorithme de backtracking.
+ */
+
 public class Solveur {
 
-    // fonction qui résout la grille par backtracking récursif.
-    
-    public boolean defar(Grille grille) {
+    /**
+     * Résout la grille par backtracking récursif.
+     * @param grille la grille à résoudre
+     * @return true si la grille a été résolue, false sinon
+     */
+    public boolean resoudre(Grille grille) {
         // Chercher la prochaine case vide
-        int[] caseVide = guissTiakh(grille);
+        int[] caseVide = trouverCaseVide(grille);
 
         // Si pas de case vide, la grille est complète
         if (caseVide == null) {
@@ -14,17 +23,17 @@ public class Solveur {
         int ligne = caseVide[0];
         int col = caseVide[1];
 
-        // test des de chiffres de 1 à 9
+        // Tester les chiffres de 1 à 9
         for (int val = 1; val <= 9; val++) {
-            if (estPermis(grille, ligne, col, val)) {
+            if (estPlacementValide(grille, ligne, col, val)) {
                 grille.setValeur(ligne, col, val);
 
                 // Appel récursif pour continuer à remplir la grille
-                if (defar(grille)) {
+                if (resoudre(grille)) {
                     return true;
                 }
 
-                // backtrack
+                // Backtrack : remettre à zéro
                 grille.setValeur(ligne, col, 0);
             }
         }
@@ -32,9 +41,12 @@ public class Solveur {
         return false;
     }
 
-    // Trouve la première case vide dans la grille.
-     
-    private int[] guissTiakh(Grille grille) {
+    /**
+     * Trouve la première case vide dans la grille.
+     * @param grille la grille
+     * @return tableau [ligne, col] ou null si aucune case vide
+     */
+    private int[] trouverCaseVide(Grille grille) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (grille.estVide(i, j)) {
@@ -45,17 +57,23 @@ public class Solveur {
         return null;
     }
 
-    // Vérifie si on peut placer val en (ligne, col) sans violer les règles.
-     
-    private boolean estPermis(Grille grille, int ligne, int col, int val) {
-        // pr la ligne
+    /**
+     * Vérifie si on peut placer val en (ligne, col) sans violer les règles du Sudoku.
+     * @param grille la grille
+     * @param ligne ligne
+     * @param col colonne
+     * @param val valeur à tester
+     * @return true si placement valide
+     */
+    private boolean estPlacementValide(Grille grille, int ligne, int col, int val) {
+        // Vérifier la ligne
         for (int j = 0; j < 9; j++) {
             if (grille.getValeur(ligne, j) == val) {
                 return false;
             }
         }
 
-        // pr la colonne
+        // Vérifier la colonne
         for (int i = 0; i < 9; i++) {
             if (grille.getValeur(i, col) == val) {
                 return false;
