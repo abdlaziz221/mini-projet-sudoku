@@ -1,49 +1,67 @@
-/**
- * Classe Main
- * Point d'entrée du programme Sudoku.
- */
+import java.util.Scanner;
 
 public class Main {
-
-    /**
-     * Méthode principale
-     * Démontre l'utilisation de la classe Grille
-     * @param args arguments ligne de commande 
-     */
     public static void main(String[] args) {
-        // Titre du programme
-        System.out.println("========================================");
-        System.out.println("      SOLVEUR DE SUDOKU - L3 GLSI");
-        System.out.println("      Partie Personne 1");
-        System.out.println("========================================\n");
 
-        // Création grille vide
-        Grille grille = new Grille();
+        
+        // loader : pour charger la grille 
+        // afficheur : pour afficher la grille
+        // solveur : pour résoudre le sudoku
+        Grilleloader loader = new Grilleloader();
+        Afficheur afficheur = new Afficheur();
+        Solveur solveur = new Solveur();
 
-        // Informations
-        System.out.println("Partie de la Personne 1 :");
-        System.out.println("- Grille.java : classe pour gérer la grille 9x9");
-        System.out.println("- Main.java : point d'entrée du programme");
-        System.out.println();
+        // Variable qui va contenir la grille
+        Grille grille = null;
 
-        // Exemple d'utilisation
-        System.out.println("Exemple d'utilisation de la classe Grille :");
+        try {
+            //  Vérifier si un fichier est passé en argument
+            if (args.length > 0) {
+                // Si oui → on charge la grille depuis le fichier
+                System.out.println("Chargement de la grille depuis le fichier...");
+                grille = loader.chargerDepuisFichier(args[0]);
+            } else {
+                // Sinon, saisie manuelle
+                System.out.println("Aucun fichier fourni.");
+                System.out.println("Veuillez entrer la grille manuellement :");
 
-        // Placer des valeurs
-        grille.setValeur(0, 0, 5); // (0,0) = 5
-        grille.setValeur(0, 1, 3); // (0,1) = 3
-        grille.setValeur(1, 0, 6); // (1,0) = 6
+                Scanner scanner = new Scanner(System.in);
 
-        // Afficher les valeurs
-        System.out.println("Valeur en (0,0) : " + grille.getValeur(0, 0));
-        System.out.println("Valeur en (0,1) : " + grille.getValeur(0, 1));
-        System.out.println("Valeur en (1,0) : " + grille.getValeur(1, 0));
-        System.out.println("Case (0,2) est vide : " + grille.estVide(0, 2));
+                // Tableau temporaire pour stocker les valeurs
+                int[][] tab = new int[9][9];
 
-        // Fin
-        System.out.println("\n========================================\n");
-        System.out.println("Les autres classes (GrilleLoader, Afficheur, Solveur)");
-        System.out.println("seront ajoutées par les autres membres du groupe.");
-        System.out.println("========================================\n");
+                // Boucle pour remplir la grille ligne par ligne
+                for (int i = 0; i < 9; i++) {
+                    System.out.println("Ligne " + (i + 1) + " (9 chiffres séparés par espace) :");
+
+                    for (int j = 0; j < 9; j++) {
+                        // Lecture de chaque valeur
+                        tab[i][j] = scanner.nextInt();
+                    }
+                }
+
+                // Création de la grille avec les valeurs saisies
+                grille = new Grille(tab);
+            }
+
+            // Affichage de la grille initiale
+            System.out.println("\nGrille initiale :");
+            afficheur.afficherGrille(grille);
+
+            // Résolution du Sudoku
+            boolean res = solveur.resoudre(grille);
+
+            // Affichage du résultat
+            if (res) {
+                System.out.println("\nSolution trouvée :");
+                afficheur.afficherGrille(grille);
+            } else {
+                System.out.println("\nAucune solution trouvée.");
+            }
+
+        } catch (Exception e) {
+            // Gestion des erreurs 
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
 }
