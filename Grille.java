@@ -8,7 +8,7 @@ public class Grille {
     public Grille() {
         cases = new int[9][9];
     }
-
+ 
     // Constructeur par copie : crée une copie de la grille donnée
    
     public Grille(Grille autre) {
