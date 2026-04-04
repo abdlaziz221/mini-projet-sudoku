@@ -1,6 +1,6 @@
 //faire charger la grille depuis un fichier texte ou via saisie manuelle.
 
-import java.io.*;
+import java.io.*; 
 import java.util.Scanner;
  
 public class Grilleloader {
