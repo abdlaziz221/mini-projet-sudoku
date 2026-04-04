@@ -18,7 +18,7 @@ public class Afficheur {
                 if (j == 8) {
                     System.out.println("║");
                 }
-            }
+            } 
         }
         System.out.println("╚═══════╩═══════╩═══════╝");
     }
