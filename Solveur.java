@@ -1,0 +1,78 @@
+public class Solveur {
+
+    // fonction qui résout la grille par backtracking récursif.
+    
+    public boolean defar(Grille grille) {
+        // Chercher la prochaine case vide
+        int[] caseVide = guissTiakh(grille);
+
+        // Si pas de case vide, la grille est complète
+        if (caseVide == null) {
+            return true;
+        }
+
+        int ligne = caseVide[0];
+        int col = caseVide[1];
+
+        // test des de chiffres de 1 à 9
+        for (int val = 1; val <= 9; val++) {
+            if (estPermis(grille, ligne, col, val)) {
+                grille.setValeur(ligne, col, val);
+
+                // Appel récursif pour continuer à remplir la grille
+                if (defar(grille)) {
+                    return true;
+                }
+
+                // backtrack
+                grille.setValeur(ligne, col, 0);
+            }
+        }
+
+        return false;
+    }
+
+    // Trouve la première case vide dans la grille.
+     
+    private int[] guissTiakh(Grille grille) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (grille.estVide(i, j)) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
+    // Vérifie si on peut placer val en (ligne, col) sans violer les règles.
+     
+    private boolean estPermis(Grille grille, int ligne, int col, int val) {
+        // pr la ligne
+        for (int j = 0; j < 9; j++) {
+            if (grille.getValeur(ligne, j) == val) {
+                return false;
+            }
+        }
+
+        // pr la colonne
+        for (int i = 0; i < 9; i++) {
+            if (grille.getValeur(i, col) == val) {
+                return false;
+            }
+        }
+
+        // Vérifier le bloc 3x3
+        int debutLigne = (ligne / 3) * 3;
+        int debutCol = (col / 3) * 3;
+        for (int i = debutLigne; i < debutLigne + 3; i++) {
+            for (int j = debutCol; j < debutCol + 3; j++) {
+                if (grille.getValeur(i, j) == val) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
