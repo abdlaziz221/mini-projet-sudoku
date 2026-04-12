@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         // Titre du programme
         System.out.println("========================================");
-        System.out.println("  SOLVEUR DE SUDOKU - Groupe 4 - L3 GLSIB");
+        System.out.println("  SOLVEUR DE SUDOKU ");
         System.out.println("========================================");
 
         Scanner scanner = new Scanner(System.in);
@@ -48,12 +48,14 @@ public class Main {
                 return;
             }
 
-            // Résoudre la grille
+            
             Solveur solveur = new Solveur();
-            Grille grilleResolue = new Grille(grille); // Copie pour ne pas modifier l'originale
-
+            // Copie pour ne pas modifier l'originale
+            Grille grilleResolue = new Grille(grille); 
+            
+            // Résoudre la grille
             if (solveur.defar(grilleResolue)) {
-                afficheur.afficherMessage("WOOW! Grille résolue avec succès , Ndanane gua!");
+                afficheur.afficherMessage("WOOW! Grille résolue avec succès , Metiwone na mais nice!");
                 afficheur.afficherGrille(grilleResolue);
             } else {
                 afficheur.afficherMessage("Impossible de résoudre cette grille , dioum gua!");
